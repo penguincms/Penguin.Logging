@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Penguin.Cms.Logging</name>
+    </assembly>
+    <members>
+        <member name="T:Penguin.Logging.Logger">
+            <summary>
+            A class provided with the intent of logging out messages through as many code paths as possible to ensure nothing is missed
+            </summary>
+        </member>
+        <member name="M:Penguin.Logging.Logger.#ctor(System.Object,Penguin.Messaging.Core.MessageBus,Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Cms.Logging.Entities.LogEntry},Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Errors.Error})">
+            <summary>
+            Constructs a new instance of this class
+            </summary>
+            <param name="_caller">The object that is doing the logging</param>
+            <param name="messageBus">A message bus to send log messages over</param>
+            <param name="logEntryRepository">An IRepository implememntation for persisting logged messages</param>
+            <param name="errorRepository">An IRepository implementation for persisting errors</param>
+        </member>
+        <member name="M:Penguin.Logging.Logger.Log(System.String,Penguin.Messaging.Logging.LogLevel,System.Object[])">
+            <summary>
+            Logs a text string to the various recievers in this logger
+            </summary>
+            <param name="toLog">The pre-formatted string to log</param>
+            <param name="type">The log level for this message</param>
+            <param name="args">Any format arguments for the string</param>
+        </member>
+        <member name="M:Penguin.Logging.Logger.LogDebug(System.String,System.Object[])">
+            <summary>
+            Logs a debug level message to the various recievers
+            </summary>
+            <param name="toLog">The preformatted string to log</param>
+            <param name="args">Optional arguments to be used during string formatting</param>
+        </member>
+        <member name="M:Penguin.Logging.Logger.LogError(System.String,System.Object[])">
+            <summary>
+            Logs an error level message to the various recievers
+            </summary>
+            <param name="toLog">The preformatted string to log</param>
+            <param name="args">Optional arguments to be used during string formatting</param>
+        </member>
+        <member name="M:Penguin.Logging.Logger.LogException(System.Exception)">
+            <summary>
+            Logs an exception as an exception level message to the various recievers
+            </summary>
+            <param name="ex">The exception to log</param>
+        </member>
+        <member name="M:Penguin.Logging.Logger.LogInfo(System.String,System.Object[])">
+            <summary>
+            Logs an informational message to the various recievers
+            </summary>
+            <param name="toLog">The preformatted string to log</param>
+            <param name="args">Optional arguments to be used during string formatting</param>
+        </member>
+        <member name="M:Penguin.Logging.Logger.LogWarning(System.String,System.Object[])">
+            <summary>
+            Logs an warning level message to the various recievers
+            </summary>
+            <param name="toLog">The preformatted string to log</param>
+            <param name="args">Optional arguments to be used during string formatting</param>
+        </member>
+        <member name="M:Penguin.Logging.Logger.Dispose">
+            <summary>
+            Disposes of this logger and persists messages to the underlying database for IRepository implementations
+            </summary>
+        </member>
+        <member name="M:Penguin.Logging.Logger.Dispose(System.Boolean)">
+            <summary>
+            Disposes of this logger and persists messages to the underlying database for IRepository implementations
+            </summary>
+            <param name="disposing">unused</param>
+        </member>
+    </members>
+</doc>
