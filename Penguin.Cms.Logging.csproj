@@ -1,13 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>http://www.penguinms.com/Nuget</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/penguincms/Penguin.Cms.Logging</PackageProjectUrl>
     <PackageIconUrl>http://www.penguinms.com/client/images/pg.png</PackageIconUrl>
     <Version>1.0.5</Version>
+	<IncludeSymbols>true</IncludeSymbols>    
+<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
     <Description>A Logging class intended for use by the Penguin CMS system, for tracking workers and background processes in as many fail-safe ways possible (File, Database, Console, Debug)</Description>
   </PropertyGroup>
 
@@ -15,21 +18,21 @@
     <PackageReference Include="Penguin.Cms.Logging.Entities" Version="1.0.2" />
     <PackageReference Include="Penguin.Errors" Version="1.0.2" />
     <PackageReference Include="Penguin.Messaging.Logging" Version="2.0.6" />
-    <PackageReference Include="Penguin.Persistence.Abstractions" Version="1.2.8" />
+    <PackageReference Include="Penguin.Persistence.Abstractions" Version="1.3.0" />
   </ItemGroup>
 
  <ItemGroup>
-    <None Include="..\License.txt">
+    <None Include="License.txt">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningsAsErrors>NU1605, CS1591</WarningsAsErrors>
-    <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Loggin\Penguin.Cms.Logging.xml</DocumentationFile>
+    <DocumentationFile>Penguin.Cms.Logging.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebugType>full</DebugType>
-    <DocumentationFile>C:\SVN\Framework\Nuget\Penguin.Loggin\Penguin.Cms.Logging.xml</DocumentationFile>
+    <DocumentationFile>Penguin.Cms.Logging.xml</DocumentationFile>
   </PropertyGroup>
 </Project>
