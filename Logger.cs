@@ -6,6 +6,8 @@ using Penguin.Messaging.Logging.Extensions;
 using Penguin.Persistence.Abstractions.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Globalization;
 using System.IO;
 
 namespace Penguin.Logging
@@ -18,20 +20,23 @@ namespace Penguin.Logging
         /// <summary>
         /// Constructs a new instance of this class
         /// </summary>
-        /// <param name="_caller">The object that is doing the logging</param>
+        /// <param name="caller">The object that is doing the logging</param>
         /// <param name="messageBus">A message bus to send log messages over</param>
         /// <param name="logEntryRepository">An IRepository implememntation for persisting logged messages</param>
         /// <param name="errorRepository">An IRepository implementation for persisting errors</param>
-        public Logger(object _caller, MessageBus messageBus, IRepository<LogEntry> logEntryRepository, IRepository<Error> errorRepository)
+        public Logger(object caller, MessageBus messageBus, IRepository<LogEntry> logEntryRepository, IRepository<AuditableError> errorRepository)
         {
+            Contract.Requires(logEntryRepository != null);
+            Contract.Requires(caller != null);
+
             this.SessionStart = DateTime.Now;
             this.GUID = Guid.NewGuid().ToString();
-            this.Caller = _caller.GetType().ToString();
+            this.Caller = caller.GetType().ToString();
             this.Entries = new List<LogEntry>();
             this.MessageBus = messageBus;
             this.LogEntryRepository = logEntryRepository;
             this.ErrorRepository = errorRepository;
-            this.FileName = $"Logs\\{Caller}.{SessionStart.ToString("yyyy.MM.dd.HH.mm.ss")}.log";
+            this.FileName = $"Logs\\{Caller}.{SessionStart.ToString("yyyy.MM.dd.HH.mm.ss", CultureInfo.CurrentCulture)}.log";
 
             if (!Directory.Exists("Logs"))
             {
@@ -45,7 +50,7 @@ namespace Penguin.Logging
         private IWriteContext WriteContext { get; set; }
         private string Caller { get; set; }
         private IRepository<LogEntry> LogEntryRepository { get; set; }
-        private IRepository<Error> ErrorRepository { get; set; }
+        private IRepository<AuditableError> ErrorRepository { get; set; }
         private List<LogEntry> Entries { get; set; }
         private string GUID { get; set; }
         private DateTime SessionStart { get; set; }
@@ -55,7 +60,7 @@ namespace Penguin.Logging
         {
             try
             {
-                File.AppendAllText(this.FileName, $"[{type}] {DateTime.Now.ToString("yyyy.MM.dd.HH.mm.ss")}: {toLog}");
+                File.AppendAllText(this.FileName, $"[{type}] {DateTime.Now.ToString("yyyy.MM.dd.HH.mm.ss", CultureInfo.CurrentCulture)}: {toLog}");
             }
             catch (Exception)
             {
@@ -70,7 +75,7 @@ namespace Penguin.Logging
         /// <param name="args">Any format arguments for the string</param>
         public void Log(string toLog, LogLevel type, params object[] args)
         {
-            LogToFile(string.Format(toLog, args), type);
+            LogToFile(string.Format(CultureInfo.CurrentCulture, toLog, args), type);
 
             LogEntry newEntry = new LogEntry
             {
@@ -80,11 +85,11 @@ namespace Penguin.Logging
                 SessionStart = this.SessionStart
             };
 
-            MessageBus?.Log(string.Format(toLog, args), type);
+            MessageBus?.Log(string.Format(CultureInfo.CurrentCulture, toLog, args), type);
 
             if (args.Length > 0)
             {
-                newEntry.Value = string.Format(toLog, args);
+                newEntry.Value = string.Format(CultureInfo.CurrentCulture, toLog, args);
             }
             else
             {
@@ -94,7 +99,7 @@ namespace Penguin.Logging
             newEntry.DateCreated = DateTime.Now;
 
 #if DEBUG
-            System.Diagnostics.Debug.WriteLine("[" + DateTime.Now.ToString() + "] " + newEntry.Value);
+            System.Diagnostics.Debug.WriteLine("[" + DateTime.Now.ToString(CultureInfo.CurrentCulture) + "] " + newEntry.Value);
 #else
 
 #endif
@@ -122,9 +127,11 @@ namespace Penguin.Logging
         /// <param name="ex">The exception to log</param>
         public void LogException(Exception ex)
         {
+            Contract.Requires(ex != null);
+
             this.LogError(ex.Message);
             MessageBus?.Log(ex);
-            this.ErrorRepository.AddOrUpdate(new Error(ex));
+            this.ErrorRepository.AddOrUpdate(new AuditableError(ex));
         }
 
         /// <summary>
@@ -146,7 +153,11 @@ namespace Penguin.Logging
         /// <summary>
         /// Disposes of this logger and persists messages to the underlying database for IRepository implementations
         /// </summary>
-        public void Dispose() => this.Dispose(true);
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
         /// Disposes of this logger and persists messages to the underlying database for IRepository implementations

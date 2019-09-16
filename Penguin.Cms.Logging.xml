@@ -9,11 +9,11 @@
             A class provided with the intent of logging out messages through as many code paths as possible to ensure nothing is missed
             </summary>
         </member>
-        <member name="M:Penguin.Logging.Logger.#ctor(System.Object,Penguin.Messaging.Core.MessageBus,Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Cms.Logging.Entities.LogEntry},Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Errors.Error})">
+        <member name="M:Penguin.Logging.Logger.#ctor(System.Object,Penguin.Messaging.Core.MessageBus,Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Cms.Logging.Entities.LogEntry},Penguin.Persistence.Abstractions.Interfaces.IRepository{Penguin.Errors.AuditableError})">
             <summary>
             Constructs a new instance of this class
             </summary>
-            <param name="_caller">The object that is doing the logging</param>
+            <param name="caller">The object that is doing the logging</param>
             <param name="messageBus">A message bus to send log messages over</param>
             <param name="logEntryRepository">An IRepository implememntation for persisting logged messages</param>
             <param name="errorRepository">An IRepository implementation for persisting errors</param>
