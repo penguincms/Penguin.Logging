@@ -71,5 +71,37 @@
             </summary>
             <param name="disposing">unused</param>
         </member>
+        <member name="T:Penguin.Cms.Logging.LogWriter">
+            <summary>
+            Logs everything, everywhere
+            </summary>
+        </member>
+        <member name="P:Penguin.Cms.Logging.LogWriter.LogFilePath">
+            <summary>
+            The path that the files will be created in
+            </summary>
+        </member>
+        <member name="M:Penguin.Cms.Logging.LogWriter.#ctor(System.String)">
+            <summary>
+            Constructs a new instance of the log writer
+            </summary>
+            <param name="logFilePath"></param>
+        </member>
+        <member name="M:Penguin.Cms.Logging.LogWriter.Dispose">
+            <summary>
+            Disposes of the writer and flushes to disk
+            </summary>
+        </member>
+        <member name="M:Penguin.Cms.Logging.LogWriter.WriteLine(System.Object)">
+            <summary>
+            Writes an object or message to the log targets
+            </summary>
+            <param name="toLog">The object or message to log</param>
+        </member>
+        <member name="M:Penguin.Cms.Logging.LogWriter.Dispose(System.Boolean)">
+            <summary>
+            Disposes of the writer and flushes to disk
+            </summary>
+        </member>
     </members>
 </doc>
