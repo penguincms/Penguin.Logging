@@ -7,10 +7,9 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/penguincms/Penguin.Cms.Logging</PackageProjectUrl>
     <PackageIconUrl>http://www.penguinms.com/client/images/pg.png</PackageIconUrl>
-    <Version>5.0.1</Version>
+    <Version>5.0.5</Version>
 	<IncludeSymbols>true</IncludeSymbols>    
-<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-
+	<SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Description>A Logging class intended for use by the Penguin CMS system, for tracking workers and background processes in as many fail-safe ways possible (File, Database, Console, Debug)</Description>
   </PropertyGroup>
 
